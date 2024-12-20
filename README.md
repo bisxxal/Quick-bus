@@ -124,54 +124,6 @@ This is a full-stack bus booking application built with **Next.js 15**, **Prisma
 3. **Booking Overview**:
    - Admins can view all user bookings, with the ability to see detailed information about each booking (user, bus, seats).
 
-## Database Schema
-
-The database schema is defined using **Prisma ORM**. Below is a simplified version of the schema:
-
-```prisma
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String?
-  bookings  Booking[]
-}
-
-model Bus {
-  id        Int      @id @default(autoincrement())
-  busName   String
-  busNumber String   @unique
-  route     Route
-  schedule  String   // e.g., "Daily", "Weekly"
-  seats     Seat[]
-}
-
-model Booking {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  busId      Int
-  seatNumber String[]
-  bookingDate DateTime @default(now())
-  
-  user       User     @relation(fields: [userId], references: [id])
-  bus        Bus      @relation(fields: [busId], references: [id])
-}
-
-model Route {
-  startPoint String
-  endPoint   String
-}
-
-model Seat {
-  id        Int    @id @default(autoincrement())
-  busId     Int
-  seatNumber String
-  isBooked  Boolean @default(false)
-
-  bus       Bus    @relation(fields: [busId], references: [id])
-}
-```
-
 ### Prisma Migration and Database Setup
 
 You can run the following Prisma commands to manage your database schema and migrations:
